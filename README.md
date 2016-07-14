@@ -1,3 +1,3 @@
 ## README
 
-Course realted code done during and after classes.
+Course related code done during and after classes.
