@@ -10,7 +10,7 @@
  * A can be any uppercase alphabet 
  * x can be any lower case alphabet
  * E is an expression comprising x and one or more of the operators +,-,*,/,^
- * For ease it is assumed that there are no spaces in the program input and len(expession) < 20 characters
+ * For ease it is assumed that there are no spaces in the program input and len(expression) < 20 characters
  */
 
 char expression[20];
