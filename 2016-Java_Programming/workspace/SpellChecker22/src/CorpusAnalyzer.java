@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,19 +11,12 @@ public class CorpusAnalyzer {
 
 	private static char[] charArray = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 	private HashMap<String, Integer> wordDict; 
-	private PrintWriter out; 
 	private ArrayList<Pair> partitions;
 	private Set<String> suggestions;
 
-	public CorpusAnalyzer () {
-
-		wordDict = new HashMap<String, Integer>();
-		partitions = new ArrayList<Pair>();
-		suggestions = new HashSet<String>();
-	}
-
 	public void createWordDict(String fileName) throws IOException {
 
+		wordDict = new HashMap<String, Integer>();
 		//read the file
 		FileReader f = new FileReader(fileName);
 		BufferedReader br = new BufferedReader(f);
@@ -60,9 +52,16 @@ public class CorpusAnalyzer {
 			System.out.println(itr.next());
 		}
 	}
+	
+	public void showSuggestions() {
+		for (String item : suggestions) 
+			System.out.print(item + ":");
+		System.out.print("\n");
+	}
 
-	public void edits(String word) {
+	public void generateEdits(String word) {
 
+		partitions = new ArrayList<Pair>();
 		String fst, snd;
 		for (int i = 1; i < word.length(); ++i) {
 			fst = word.substring(0, i);
@@ -70,16 +69,37 @@ public class CorpusAnalyzer {
 			if (fst != null && snd != null) 
 				partitions.add(new Pair(fst, snd));
 		}
+		partitions.add(new Pair(word, ""));
 
-		suggestions.add(word);
-		suggestions.addAll(inserts());
-		suggestions.addAll(deletes());
-		suggestions.addAll(transpose());
-		suggestions.addAll(replace());
+		suggestions = new HashSet<String>();
+		if (!wordDict.containsKey(word)) {
+			suggestions.addAll(inserts());
+			suggestions.addAll(deletes());
+			suggestions.addAll(transpose());
+			suggestions.addAll(replace());
+		} else {
+			suggestions.add(word);
+		}
+		
+		showSuggestions();
 
+	}
+	
+	public void suggestCorrection() {
+		String probableSuggestion = new String("");
+		int maxScore = 0;
+		for (String s : suggestions) {
+			int score = wordDict.get(s);
+			if (score > maxScore) {
+				probableSuggestion = s;
+			}
+		}
+		System.out.println(probableSuggestion);
+		
 	}
 
 	public ArrayList<String> inserts() {
+
 
 		ArrayList<String> insertSuggestions = new ArrayList<String>();
 		for (Pair p : partitions) {
@@ -90,7 +110,7 @@ public class CorpusAnalyzer {
 				}
 			}
 		}
-		System.out.println("in" + insertSuggestions);
+//		System.out.println("in" + insertSuggestions);
 		return insertSuggestions;
 	}
 
@@ -98,12 +118,14 @@ public class CorpusAnalyzer {
 
 		ArrayList<String> deleteSuggestions = new ArrayList<String>();
 		for (Pair p : partitions) {
-			String s = p.getFirst() + p.getSecond().substring(1);
-			if (wordDict.containsKey(s)) {
-				deleteSuggestions.add(s);
+			if (!p.getSecond().equals("")) {
+				String s = p.getFirst() + p.getSecond().substring(1);
+				if (wordDict.containsKey(s)) {
+					deleteSuggestions.add(s);
+				}
 			}
 		}
-		System.out.println("del" + deleteSuggestions);
+//		System.out.println("del" + deleteSuggestions);
 		return deleteSuggestions;
 	}
 
@@ -112,13 +134,15 @@ public class CorpusAnalyzer {
 		ArrayList<String> replaceSuggestions = new ArrayList<String>();
 		for (Pair p : partitions) {
 			for (char c : charArray) {
-				String s = p.getFirst() + c + p.getSecond().substring(1);
-				if (wordDict.containsKey(s)) {
-					replaceSuggestions.add(s);
+				if(!p.getSecond().equals("")) {
+					String s = p.getFirst() + c + p.getSecond().substring(1);
+					if (wordDict.containsKey(s)) {
+						replaceSuggestions.add(s);
+					}
 				}
 			}
 		}
-		System.out.println("re" + replaceSuggestions);
+//		System.out.println("re" + replaceSuggestions);
 		return replaceSuggestions;
 	}
 
@@ -135,7 +159,7 @@ public class CorpusAnalyzer {
 				}
 			}
 		}
-		System.out.println("tr:" + transposeSuggestions);
+//		System.out.println("tr:" + transposeSuggestions);
 		return transposeSuggestions;
 	}
 

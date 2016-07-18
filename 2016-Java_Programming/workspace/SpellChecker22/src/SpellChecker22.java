@@ -12,12 +12,13 @@ public class SpellChecker22 {
 			System.out.println("Done");
 
 			//feed input
-			FileReader f = new FileReader("test1.txt");
+			FileReader f = new FileReader("test2.txt");
 			BufferedReader inp = new BufferedReader(f);
 			String line;
 			while ((line = inp.readLine()) != null) {
 				String[] input = line.split("\\s+", -1);
-				c.edits(input[0]);
+				c.generateEdits(input[0]);
+				c.suggestCorrection();
 			}
 			//c.showPartitions();
 			inp.close();
