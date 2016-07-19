@@ -1,0 +1,8 @@
+RDBMS,SQL,normal form,FD,transactions,ACID,entity,primary key,relational,database,data
+relational,database,RDBMS,is,a,widely,used,technology,for
+the,purpose,of,storing,large,amount,of,data
+the,structuring,of,the,database,is,done,using,the,process
+of,normalization,normalization,uses,FD,to,decide,appropriate,normal form
+once,data,enters,the,database,transactions,play,a,crucial,role
+data,integrity,is,maintained,using,ACID,properties,for,transactions
+SQL,language,provides,transactions,to,query,and,manipulate,data,while,preserving,ACID,properties

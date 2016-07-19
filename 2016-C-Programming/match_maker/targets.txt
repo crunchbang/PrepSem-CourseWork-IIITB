@@ -1,0 +1,4 @@
+relational,database
+database,transactions,SQL
+transactions,data,ACID
+SQL,ACID,transactions

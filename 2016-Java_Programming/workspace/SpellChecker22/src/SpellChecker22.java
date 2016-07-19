@@ -9,7 +9,6 @@ public class SpellChecker22 {
 		try {
 			CorpusAnalyzer c = new CorpusAnalyzer();
 			c.createWordDict("big_doc.txt");
-			System.out.println("Done");
 
 			//feed input
 			FileReader f = new FileReader("test2.txt");
@@ -18,9 +17,9 @@ public class SpellChecker22 {
 			while ((line = inp.readLine()) != null) {
 				String[] input = line.split("\\s+", -1);
 				c.generateEdits(input[0]);
+				System.out.print(input[0] + ":");
 				c.suggestCorrection();
 			}
-			//c.showPartitions();
 			inp.close();
 		} catch (IOException e) {
 			System.out.println("Done");

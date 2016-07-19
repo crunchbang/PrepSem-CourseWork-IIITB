@@ -39,26 +39,6 @@ public class CorpusAnalyzer {
 		br.close();
 	}
 
-	public void showDict() {
-		for (String item : wordDict.keySet()) {
-			String val = wordDict.get(item.toString()).toString();
-			System.out.println(item + " " + val);
-		}
-	}
-
-	public void showPartitions() {
-		Iterator<Pair> itr = partitions.iterator();
-		while (itr.hasNext()) {
-			System.out.println(itr.next());
-		}
-	}
-	
-	public void showSuggestions() {
-		for (String item : suggestions) 
-			System.out.print(item + ":");
-		System.out.print("\n");
-	}
-
 	public void generateEdits(String word) {
 
 		partitions = new ArrayList<Pair>();
@@ -70,6 +50,7 @@ public class CorpusAnalyzer {
 				partitions.add(new Pair(fst, snd));
 		}
 		partitions.add(new Pair(word, ""));
+		partitions.add(new Pair("", word));
 
 		suggestions = new HashSet<String>();
 		if (!wordDict.containsKey(word)) {
@@ -81,7 +62,7 @@ public class CorpusAnalyzer {
 			suggestions.add(word);
 		}
 		
-		showSuggestions();
+//		showSuggestions();
 
 	}
 	
@@ -92,6 +73,7 @@ public class CorpusAnalyzer {
 			int score = wordDict.get(s);
 			if (score > maxScore) {
 				probableSuggestion = s;
+				maxScore = score;
 			}
 		}
 		System.out.println(probableSuggestion);
@@ -99,7 +81,6 @@ public class CorpusAnalyzer {
 	}
 
 	public ArrayList<String> inserts() {
-
 
 		ArrayList<String> insertSuggestions = new ArrayList<String>();
 		for (Pair p : partitions) {
@@ -163,8 +144,34 @@ public class CorpusAnalyzer {
 		return transposeSuggestions;
 	}
 
+	/*
+	 * helper functions
+	 */
+	public void showDict() {
+		for (String item : wordDict.keySet()) {
+			String val = wordDict.get(item.toString()).toString();
+			System.out.println(item + " " + val);
+		}
+	}
+
+	public void showPartitions() {
+		Iterator<Pair> itr = partitions.iterator();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
+	}
+	
+	public void showSuggestions() {
+		for (String item : suggestions) 
+			System.out.print(item + ":");
+		System.out.print("\n");
+	}
+
 }
 
+/*
+ * helper class
+ */
 class Pair {
 	String first;
 	String second;
