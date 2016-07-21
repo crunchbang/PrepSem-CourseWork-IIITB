@@ -33,11 +33,11 @@ public class JSONObject {
 	public String toString() {
 
 		StringBuilder str = new StringBuilder("");
-		str.append("{");
+		str.append("{\n");
 		for (String i : keyValue.keySet()) {
-			str.append(i + ":" + keyValue.get(i).toString() +",\n");
+			str.append(i + " : " + keyValue.get(i).toString() +",\n");
 		}
-		str.append("}");
+		str.append("\n}\n");
 		return str.toString();
 	}
 }

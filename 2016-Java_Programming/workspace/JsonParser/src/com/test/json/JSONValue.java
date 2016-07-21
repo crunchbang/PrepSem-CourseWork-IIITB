@@ -52,10 +52,11 @@ fields should be non-null */
 		else if (jObj != null)
 			return jObj.toString();
 		else  {
-			StringBuilder repr = new StringBuilder("");
+			StringBuilder repr = new StringBuilder("[ ");
 			for (JSONValue v : jArray) {
-				repr.append(v);
+				repr.append(v + " , ");
 			}
+				repr.append( " ]");
 			return repr.toString();
 		}
 	}

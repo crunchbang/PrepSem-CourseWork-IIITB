@@ -28,14 +28,14 @@ public class JSONParser {
 
 	public JSONParser() {
 		try {
-			j = new JSONTokenizer("json.txt");
+			j = new JSONTokenizer("json3.txt");
 			Token t;
 			JSONObject x = OBJECT();
-				System.out.println("main" +x);
-//				
-//				  while ((t=j.getNextToken()) != null)
-//				  	System.out.println(t);
-				 
+				System.out.println(x);
+			//				
+			//				  while ((t=j.getNextToken()) != null)
+			//				  	System.out.println(t);
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -47,14 +47,14 @@ public class JSONParser {
 	public JSONObject OBJECT() {
 		JSONObject obj = null; 
 		Token t = j.getNextToken();
-		System.out.println("O" +t);
+//				System.out.println("O" +t);
 		if (!(t.getToken() == Symbol.OPEN_B)) {
 			//throw error
 		}
 
 		obj = MEMBER();
 		t = j.getNextToken();
-		System.out.println("Ox" +t);
+//				System.out.println("Ox" +t);
 		if (!(t.getToken() == Symbol.CLOSE_B)) {
 			//throw error
 		}
@@ -67,7 +67,7 @@ public class JSONParser {
 		obj.addAll(p);
 		if (j.peek() == ',') {
 			Token t = j.getNextToken();
-				System.out.println("M"+t);
+//							System.out.println("M"+t);
 			obj.addAll(MEMBER().getKeyValue());
 		}
 		return obj;
@@ -77,7 +77,7 @@ public class JSONParser {
 	public HashMap<String, JSONValue>  PAIR() {
 		String s = STR();
 		Token t = j.getNextToken();
-				System.out.println("P"+t);
+//						System.out.println("P"+t);
 		if (!(t.getToken() == Symbol.COLON)) {
 			//throw error
 		}
@@ -89,25 +89,26 @@ public class JSONParser {
 
 	public String STR() {
 		Token t = j.getNextToken();
-		System.out.println("S"+t);
+//				System.out.println("S"+t);
 		if (!(t.getToken() == Symbol.DQUOTE)) {
 			//throw error
 		}
 		String s = j.getNextToken().getLexeme();
-		System.out.println("S"+s);
+//				System.out.println("S"+s);
 		t = j.getNextToken();
-		System.out.println("S"+t);
+//				System.out.println("S"+t);
 
 		return s;
 	}
 
 	public JSONValue VAL() {
 		char c = j.peek();
-				//System.out.println("vv" +t);
+//		System.out.println("vv" +c);
 		switch(c) {
 		case '"':
 			return new JSONValue(STR());
 		case '{':
+//		System.out.println("vo" +c);
 			return new JSONValue(OBJECT());
 		case '[':
 			return new JSONValue(ARR());
@@ -119,11 +120,10 @@ public class JSONParser {
 
 	public JSONValue[] ARR() {
 		Token t = j.getNextToken();
-		JSONValue[] jArr = null;
 		if (!(t.getToken() == Symbol.OPEN_SQ)) {
 			//throw error
 		}
-		jArr = E();
+		JSONValue[] jArr = E();
 		if (!(t.getToken() == Symbol.CLOSE_SQ)) {
 			//throw error
 		}
@@ -132,11 +132,12 @@ public class JSONParser {
 
 	public JSONValue[] E() {
 		List<JSONValue> jA = new ArrayList<JSONValue>();
+//			System.out.println("jADD");
 		jA.add(VAL());
 		if (j.peek() == ',') {
 			Token t = j.getNextToken(); 
+//			System.out.println("Exx"+t);
 			jA.addAll(Arrays.asList(E()));
-			t = j.getNextToken();
 		}
 		return jA.toArray(new JSONValue[jA.size()]);
 	}

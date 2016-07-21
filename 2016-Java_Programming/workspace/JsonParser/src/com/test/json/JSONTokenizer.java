@@ -16,6 +16,9 @@ public class JSONTokenizer {
 		jsonString = scan.next();
 		scan.close();
 		
+		jsonString = jsonString.replaceAll("\\s+", "");
+//		System.out.println(jsonString+"#");
+		
 		pos = 0;
 	}
 	
