@@ -1,6 +1,5 @@
 package com.test.json;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,148 +22,109 @@ import com.test.json.Token.Symbol;
  */
 public class JSONParser {
 
-	private JSONTokenizer j; 
+	private JSONTokenizer jTok; 
 	private Token t;
 
-	public JSONParser() {
+	public JSONParser(String file) {
 		try {
-			j = new JSONTokenizer("json3.txt");
-			Token t;
+			jTok = new JSONTokenizer(file);
 			JSONObject x = OBJECT();
-				System.out.println(x);
-			//				
-			//				  while ((t=j.getNextToken()) != null)
-			//				  	System.out.println(t);
-
-		} catch (FileNotFoundException e) {
+			System.out.println(x);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	// TODO: Implement error checking
 
-	public JSONObject OBJECT() {
+	public JSONObject OBJECT() throws ParseException {
 		JSONObject obj = null; 
-		Token t = j.getNextToken();
-//				System.out.println("O" +t);
+		t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.OPEN_B)) {
-			//throw error
+			throw new ParseException("Missing {");
 		}
 
 		obj = MEMBER();
-		t = j.getNextToken();
-//				System.out.println("Ox" +t);
+		t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.CLOSE_B)) {
-			//throw error
+			throw new ParseException("Missing }");
 		}
 		return obj;
 	}
 
-	public JSONObject MEMBER() {
+	public JSONObject MEMBER() throws ParseException {
 		JSONObject obj = new JSONObject();
 		HashMap<String, JSONValue> p = PAIR();
 		obj.addAll(p);
-		if (j.peek() == ',') {
-			Token t = j.getNextToken();
-//							System.out.println("M"+t);
+		if (jTok.peek() == ',') {
+			t = jTok.getNextToken();
 			obj.addAll(MEMBER().getKeyValue());
 		}
 		return obj;
 	}
 
 
-	public HashMap<String, JSONValue>  PAIR() {
+	public HashMap<String, JSONValue>  PAIR() throws ParseException {
 		String s = STR();
-		Token t = j.getNextToken();
-//						System.out.println("P"+t);
+		Token t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.COLON)) {
-			//throw error
+			throw new ParseException("Missing :");
 		}
 		JSONValue v = VAL();
-		HashMap<String, JSONValue> h = new HashMap<String, JSONValue>();
-		h.put(s, v);
-		return h;
+		HashMap<String, JSONValue> keyValPair = new HashMap<String, JSONValue>();
+		keyValPair.put(s, v);
+		return keyValPair;
 	}
 
-	public String STR() {
-		Token t = j.getNextToken();
-//				System.out.println("S"+t);
+	public String STR() throws ParseException {
+		Token t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.DQUOTE)) {
-			//throw error
+			throw new ParseException("Missing \"");
 		}
-		String s = j.getNextToken().getLexeme();
-//				System.out.println("S"+s);
-		t = j.getNextToken();
-//				System.out.println("S"+t);
+		String str = jTok.getNextToken().getLexeme();
+		if (!(t.getToken() == Symbol.DQUOTE)) {
+			throw new ParseException("Missing \"");
+		}
+		t = jTok.getNextToken();
 
-		return s;
+		return str;
 	}
 
-	public JSONValue VAL() {
-		char c = j.peek();
-//		System.out.println("vv" +c);
+	public JSONValue VAL() throws ParseException {
+		char c = jTok.peek();
 		switch(c) {
 		case '"':
 			return new JSONValue(STR());
 		case '{':
-//		System.out.println("vo" +c);
 			return new JSONValue(OBJECT());
 		case '[':
 			return new JSONValue(ARR());
 		default:
-			//throw error;
+			throw new ParseException("Invalid or Malformed value");
 		}
-		return null;
 	}
 
-	public JSONValue[] ARR() {
-		Token t = j.getNextToken();
+	public JSONValue[] ARR() throws ParseException {
+		t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.OPEN_SQ)) {
-			//throw error
+			throw new ParseException("Missing [");
 		}
-		JSONValue[] jArr = E();
+		JSONValue[] jArr = ELEMENT();
+		t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.CLOSE_SQ)) {
-			//throw error
+			throw new ParseException("Missing ]");
 		}
 		return jArr;
 	}
 
-	public JSONValue[] E() {
+	public JSONValue[] ELEMENT() throws ParseException {
 		List<JSONValue> jA = new ArrayList<JSONValue>();
-//			System.out.println("jADD");
 		jA.add(VAL());
-		if (j.peek() == ',') {
-			Token t = j.getNextToken(); 
-//			System.out.println("Exx"+t);
-			jA.addAll(Arrays.asList(E()));
+		if (jTok.peek() == ',') {
+			t = jTok.getNextToken(); 
+			jA.addAll(Arrays.asList(ELEMENT()));
 		}
 		return jA.toArray(new JSONValue[jA.size()]);
 	}
 
-
-	class Pair {
-		String key;
-		JSONValue value;
-
-		public Pair(String key, JSONValue value) {
-			this.key = key;
-			this.value = value;
-
-		}
-		public String getKey() {
-			return key;
-		}
-		public void setKey(String key) {
-			this.key = key;
-		}
-		public JSONValue getValue() {
-			return value;
-		}
-		public void setValue(JSONValue value) {
-			this.value = value;
-		}
-
-	}
 }
-

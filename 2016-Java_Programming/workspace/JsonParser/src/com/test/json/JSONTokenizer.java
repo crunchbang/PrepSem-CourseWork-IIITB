@@ -16,8 +16,7 @@ public class JSONTokenizer {
 		jsonString = scan.next();
 		scan.close();
 		
-		jsonString = jsonString.replaceAll("\\s+", "");
-//		System.out.println(jsonString+"#");
+		//jsonString = jsonString.replaceAll("\\s+", "");
 		
 		pos = 0;
 	}
@@ -29,20 +28,27 @@ public class JSONTokenizer {
 	public Token getNextToken() {
 		StringBuilder lexeme = new StringBuilder();
 		Symbol token = null; 
+		boolean insideString = false;
 
 		if (pos >= jsonString.length())
 			return null;
 		char c = jsonString.charAt(pos);
 		while (Character.isWhitespace(c)) {
+			System.out.println("SPACE:"+ c);
 			pos++;
 			c = jsonString.charAt(pos);
+			//System.out.println("WHITE");
 		}
+			System.out.println("char:"+ c);
 		if (Character.isLetterOrDigit(c)) {
 			token = Symbol.ALPANUM;
-			while (Character.isLetterOrDigit(c)) {
+			insideString = true;
+			while (insideString) { 
 				lexeme.append(c);
 				pos++;
 				c = jsonString.charAt(pos);
+				if (c == '"')
+					insideString = false;
 			}
 		} else {
 			switch (c) {
@@ -77,7 +83,9 @@ public class JSONTokenizer {
 			}
 			pos++;
 		}
-		//System.out.println(pos);
+		System.out.println(pos);
+		c = jsonString.charAt(pos+1);
+		System.out.println(c);
 		return new Token(lexeme.toString(), token);
 	}
 }

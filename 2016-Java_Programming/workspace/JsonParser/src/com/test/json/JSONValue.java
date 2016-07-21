@@ -54,9 +54,10 @@ fields should be non-null */
 		else  {
 			StringBuilder repr = new StringBuilder("[ ");
 			for (JSONValue v : jArray) {
-				repr.append(v + " , ");
+				repr.append(v + ",");
 			}
-				repr.append( " ]");
+			repr.deleteCharAt(repr.length()-1);
+			repr.append( " ]");
 			return repr.toString();
 		}
 	}

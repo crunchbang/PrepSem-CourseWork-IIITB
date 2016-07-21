@@ -37,6 +37,8 @@ public class JSONObject {
 		for (String i : keyValue.keySet()) {
 			str.append(i + " : " + keyValue.get(i).toString() +",\n");
 		}
+		str.deleteCharAt(str.length()-1);
+		str.deleteCharAt(str.length()-1);
 		str.append("\n}\n");
 		return str.toString();
 	}

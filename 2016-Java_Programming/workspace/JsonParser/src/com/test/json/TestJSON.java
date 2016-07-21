@@ -6,7 +6,7 @@ public class TestJSON {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		JSONParser j = new JSONParser();
+		new JSONParser("json2.txt");
 	}
 
 
