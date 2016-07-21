@@ -18,6 +18,10 @@ public class JSONTokenizer {
 		
 		pos = 0;
 	}
+	
+	public char peek() {
+		return jsonString.charAt(pos);
+	}
 
 	public Token getNextToken() {
 		StringBuilder lexeme = new StringBuilder();
