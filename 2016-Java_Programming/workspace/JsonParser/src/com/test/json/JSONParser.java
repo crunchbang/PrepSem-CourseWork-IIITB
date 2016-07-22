@@ -100,7 +100,7 @@ public class JSONParser {
 		case '[':
 			return new JSONValue(ARR());
 		default:
-			throw new ParseException("Invalid or Malformed value");
+			throw new ParseException("Invalid or Malformed value (Read " + c + ")");
 		}
 	}
 

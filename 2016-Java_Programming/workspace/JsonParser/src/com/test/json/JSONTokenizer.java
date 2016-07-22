@@ -9,6 +9,7 @@ public class JSONTokenizer {
 
 	private	String jsonString; 
 	private	int pos;
+	private char c;
 
 	public JSONTokenizer(String inputFile) throws FileNotFoundException {
 		Scanner scan = new Scanner(new File(inputFile));
@@ -22,6 +23,11 @@ public class JSONTokenizer {
 	}
 	
 	public char peek() {
+		c = jsonString.charAt(pos);
+		while (Character.isWhitespace(c)) {
+			pos++;
+			c = jsonString.charAt(pos);
+		}
 		return jsonString.charAt(pos);
 	}
 
@@ -32,14 +38,11 @@ public class JSONTokenizer {
 
 		if (pos >= jsonString.length())
 			return null;
-		char c = jsonString.charAt(pos);
+		c = jsonString.charAt(pos);
 		while (Character.isWhitespace(c)) {
-			System.out.println("SPACE:"+ c);
 			pos++;
 			c = jsonString.charAt(pos);
-			//System.out.println("WHITE");
 		}
-			System.out.println("char:"+ c);
 		if (Character.isLetterOrDigit(c)) {
 			token = Symbol.ALPANUM;
 			insideString = true;
@@ -83,9 +86,6 @@ public class JSONTokenizer {
 			}
 			pos++;
 		}
-		System.out.println(pos);
-		c = jsonString.charAt(pos+1);
-		System.out.println(c);
 		return new Token(lexeme.toString(), token);
 	}
 }
