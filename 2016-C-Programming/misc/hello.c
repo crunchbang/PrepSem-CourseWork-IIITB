@@ -1,7 +1,8 @@
-#include<stdio.h>
+
+#define X 0
 
 void main() 
 {
-	printf("%s", "Hello");
 
+        int x = X;
 }
