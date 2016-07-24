@@ -1,3 +1,5 @@
+package problemSet2;
+
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.File;
