@@ -1,3 +1,5 @@
+CC = gcc 
+CFLAGS = -Wall -Wextra -DDEBUG
 C_FILES = $(wildcard src/*.c)
 O_FILES = $(patsubst %.c,%.o,$(C_FILES))
 
@@ -13,7 +15,7 @@ build:
 	mkdir -p build
 
 build/%.o: src/%.c | build
-	gcc -c -Wall -Wextra $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(O_FILES)
