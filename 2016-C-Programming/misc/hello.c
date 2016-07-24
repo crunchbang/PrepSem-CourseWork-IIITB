@@ -1,8 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
 
 #define X 0
 
-void main() 
+int main() 
 {
 
-        int x = X;
+        int * i = (int *)malloc(sizeof(int));
+        free(i);
+        free(i)
+
 }
