@@ -21,7 +21,7 @@ int vfs_load(char *name_with_path)
         vfs.header = header;
 
 #ifdef DEBUG
-        printf("VFS Loaded\n");
+        printf("VFS %s Loaded\n", name_with_path);
     #ifdef DEBUG_VERBOSE
         print_vfs(vfs, 1);
     #endif

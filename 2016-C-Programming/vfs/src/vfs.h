@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "vfs_create.h"
 #include "vfs_save.h"
@@ -23,6 +24,7 @@
 struct Vfs_file_info {
         char fname[MAX_LEN];
         long offset;
+        long file_size;
 };
 
 struct Vfs_info {

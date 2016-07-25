@@ -2,7 +2,7 @@
 
 void print_file_info(struct Vfs_file_info file_info)
 {
-        printf("\n Filename:%s Offset:%ld \n", file_info.fname, file_info.offset);
+        printf("\n Filename:%s Offset:%ld Size:%ld\n", file_info.fname, file_info.offset, file_info.file_size);
 }
 
 void print_vfs_info(struct Vfs_info vfs_info)

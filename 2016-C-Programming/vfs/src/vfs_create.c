@@ -12,10 +12,15 @@ int vfs_create(char *name_with_path)
 
         strcpy(info.vfs_name, name_with_path);
         info.num_files = 0;
+        info.size = 0;
         header.vfs_info = info;
 
         fwrite(&header, sizeof(header), 1, fp);
         fclose(fp);
+
+#ifdef DEBUG
+        printf("Created %s\n", name_with_path);
+#endif
 
         return VFS_SUCCESS;
 }

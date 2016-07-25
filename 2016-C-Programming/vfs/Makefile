@@ -6,9 +6,9 @@ O_FILES = $(patsubst %.c,%.o,$(C_FILES))
 .PHONY: all clean
 .DEFAULT: all
 
-all: program
+all: virtualFS
 
-program: $(O_FILES)
+virtualFS: $(O_FILES)
 	gcc -o $@ $^
 
 build:
