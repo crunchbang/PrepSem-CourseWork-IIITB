@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 
 public class TestJSON {
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws FileNotFoundException, ParseException {
 
-		new JSONParser("json2.txt");
+		new JSONParser("json3.txt").parse();
 	}
 
 

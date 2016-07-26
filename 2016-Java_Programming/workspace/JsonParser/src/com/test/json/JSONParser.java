@@ -28,16 +28,20 @@ public class JSONParser {
 	public JSONParser(String file) {
 		try {
 			jTok = new JSONTokenizer(file);
-			JSONObject x = OBJECT();
-			System.out.println(x);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+	
+	public JSONObject parse() throws ParseException {
+			JSONObject x = OBJECT();
+			return x;
+		
+	}
 
 
-	public JSONObject OBJECT() throws ParseException {
+	private JSONObject OBJECT() throws ParseException {
 		JSONObject obj = null; 
 		t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.OPEN_B)) {
@@ -52,7 +56,7 @@ public class JSONParser {
 		return obj;
 	}
 
-	public JSONObject MEMBER() throws ParseException {
+	private JSONObject MEMBER() throws ParseException {
 		JSONObject obj = new JSONObject();
 		HashMap<String, JSONValue> p = PAIR();
 		obj.addAll(p);
@@ -64,7 +68,7 @@ public class JSONParser {
 	}
 
 
-	public HashMap<String, JSONValue>  PAIR() throws ParseException {
+	private HashMap<String, JSONValue>  PAIR() throws ParseException {
 		String s = STR();
 		Token t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.COLON)) {
@@ -76,7 +80,7 @@ public class JSONParser {
 		return keyValPair;
 	}
 
-	public String STR() throws ParseException {
+	private String STR() throws ParseException {
 		Token t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.DQUOTE)) {
 			throw new ParseException("Missing \"");
@@ -90,7 +94,7 @@ public class JSONParser {
 		return str;
 	}
 
-	public JSONValue VAL() throws ParseException {
+	private JSONValue VAL() throws ParseException {
 		char c = jTok.peek();
 		switch(c) {
 		case '"':
@@ -104,7 +108,7 @@ public class JSONParser {
 		}
 	}
 
-	public JSONValue[] ARR() throws ParseException {
+	private JSONValue[] ARR() throws ParseException {
 		t = jTok.getNextToken();
 		if (!(t.getToken() == Symbol.OPEN_SQ)) {
 			throw new ParseException("Missing [");
@@ -117,7 +121,7 @@ public class JSONParser {
 		return jArr;
 	}
 
-	public JSONValue[] ELEMENT() throws ParseException {
+	private JSONValue[] ELEMENT() throws ParseException {
 		List<JSONValue> jA = new ArrayList<JSONValue>();
 		jA.add(VAL());
 		if (jTok.peek() == ',') {

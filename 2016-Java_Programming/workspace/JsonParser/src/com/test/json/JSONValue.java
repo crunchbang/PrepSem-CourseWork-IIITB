@@ -33,15 +33,15 @@ fields should be non-null */
 	 
 
 
-	String getString() {
+	public String getString() {
 		return str;
 	}
 
-	JSONObject getObj() {
+	public JSONObject getObj() {
 		return jObj;
 	}
 
-	JSONValue[] getArray() {
+	public JSONValue[] getArray() {
 		return jArray;
 	}
 
