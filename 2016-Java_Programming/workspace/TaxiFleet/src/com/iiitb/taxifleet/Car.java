@@ -57,6 +57,8 @@ public class Car {
 		return "Car [id=" + id + ", locX=" + locX + ", locY=" + locY + ", available =" + available + "]";
 	}
 	
+
+	
 	
 
 }

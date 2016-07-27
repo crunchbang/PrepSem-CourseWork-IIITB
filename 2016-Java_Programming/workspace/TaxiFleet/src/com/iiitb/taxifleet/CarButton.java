@@ -16,7 +16,7 @@ public class CarButton extends JButton implements MouseListener{
 	public CarButton(Car c) {
 		super();
 		this.c = c;
-		
+
 		this.setText(c.getId());
 		this.setBounds(c.getLocX(), c.getLocY(), length, breadth);
 		this.setBorder(null);
@@ -25,42 +25,43 @@ public class CarButton extends JButton implements MouseListener{
 		else
 			this.setBackground(Color.RED);
 		this.addMouseListener(this);
+		this.setToolTipText(c.getId() + " " + c.getStatus());
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (c.isAvailable()) {
 			this.setBackground(Color.RED);
+			this.setToolTipText(c.getId() + " " + c.getStatus());
 			c.setAvailable(false);
+			this.setToolTipText(c.getId() + " " + c.getStatus());
 		}
 		System.out.println(c);
-		
-		
+
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		this.setToolTipText(c.getId() + " " + c.getStatus());
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		this.setToolTipText(c.getId()); 
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 
 }
