@@ -1,11 +1,12 @@
 package com.iiitb.taxifleet;
 
-public class Car {
+public class Taxi_Backup {
 	private String id;
 	private int locX, locY;
 	private boolean available;
+	private int userID;
 
-	public Car(String id, int locX, int locY, boolean available) {
+	public Taxi_Backup(String id, int locX, int locY, boolean available) {
 		super();
 		this.id = id;
 		this.locX = locX;
@@ -19,6 +20,14 @@ public class Car {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public int getUserID() {
+		return userID;
+	}
+
+	public void setUserID(int id) {
+		this.userID = id;
 	}
 
 	public int getLocX() {

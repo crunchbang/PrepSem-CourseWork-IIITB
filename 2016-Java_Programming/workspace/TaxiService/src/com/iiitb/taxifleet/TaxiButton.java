@@ -1,40 +1,38 @@
 package com.iiitb.taxifleet;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 
-public class CarButton extends JButton implements MouseListener{
-	private Car c;
+public class TaxiButton extends JButton implements MouseListener{
+	private Taxi c;
 	private static int length = 50;
 	private static int breadth = 50;
 
-	public CarButton(Car c) {
+	public TaxiButton(Taxi m) {
 		super();
-		this.c = c;
+		this.c = m;
 
-		this.setText(c.getId());
-		this.setBounds(c.getLocX(), c.getLocY(), length, breadth);
+		this.setText(Integer.toString(m.getTaxiId()));
+		this.setBounds(m.getLocation().getX(), m.getLocation().getY(), length, breadth);
 		this.setBorder(null);
-		if (c.isAvailable())
+		if (!m.isBusy())
 			this.setBackground(Color.GREEN);
 		else
 			this.setBackground(Color.RED);
 		this.addMouseListener(this);
-		this.setToolTipText(c.getId() + " " + c.getStatus());
+		String status = m.isBusy() ? "Busy" : "Available";
+		this.setToolTipText(m.getTaxiId() + " " + status);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (c.isAvailable()) {
+		if (!c.isBusy()) {
 			this.setBackground(Color.RED);
-			this.setToolTipText(c.getId() + " " + c.getStatus());
-			c.setAvailable(false);
-			this.setToolTipText(c.getId() + " " + c.getStatus());
+			c.setIsBusy(true);
+			this.setToolTipText(c.getTaxiId() + " " + "Busy");
 		}
 		System.out.println(c);
 
