@@ -1,13 +1,10 @@
-
 package com.iiitb.taxifleet;
-
 import java.util.ArrayList;
 
 public class TaxiFleet {
 	private ArrayList<Taxi> taxis;
 
 	private static final int MAX_USER_ID = 200;
-	//modified from 20 to 200#
 	private static final int CLOSE_DIST = 500;
 	private static final int NUM_ITERATIONS = 10000;
 	private static final int tock = 500; // millisecs per iteration
@@ -67,6 +64,7 @@ public class TaxiFleet {
 			taxi.setLocation(loc);
 			users[userId] = new TaxiUse(taxi, lastTick);
 			retId = taxi.getTaxiId();
+			System.out.println(taxi);
 		}
 		return retId;
 	}
@@ -107,12 +105,11 @@ public class TaxiFleet {
 	private void animate() {
 		for (int i = 0; i < NUM_ITERATIONS; i++) {
 			for (Taxi t : taxis) {
-				//fixed precedence#
-				int dx = (int) (Math.random() * 40) - 20;
-				int dy = (int) (Math.random() * 40) - 20;
+				int dx = (int) Math.random() * 40 - 20;
+				int dy = (int) Math.random() * 40 - 20;
 				Location loc = t.getLocation();
 				// System.out.println(loc);
-				t.setLocation(new Location((loc.getX() + dx)%1000, (loc.getY() + dy)%1000));
+				t.setLocation(new Location((loc.getX() + dx+1000)%1000, (loc.getY() + dy+1000)%1000));
 			}
 			lastTick += tock;
 			try {
@@ -123,14 +120,31 @@ public class TaxiFleet {
 			}
 		}
 	}
-	/*Testing TaxiFleet*/
+	
 	public static void main(String[] args) {
-		TaxiFleet flt = new TaxiFleet();
-		flt.start(20);
-		while (true) {
-			System.out.println(flt.getTaxis());
-			int i=0;
-			while(i++<Integer.MAX_VALUE);
+		TaxiFleet fleet = new TaxiFleet();
+		fleet.start(25);
+		ArrayList<Taxi> taxis = fleet.getTaxis();
+		System.out.println(taxis);
+		for(int i=0;i<50;i++) {
+			// try to get a taxi. Start with a loc close to some taxi
+			Taxi t = taxis.get(i/2);
+			int ctId = fleet.request(17, t.getLocation());
+			try {
+				if(ctId >= 0) {
+					Taxi myTaxi = taxis.get(ctId);
+					System.out.println("Round " + i + " Found taxi: " + myTaxi);
+					Thread.sleep(800);
+					// drop off at a random location
+					fleet.release(17, new Location(i*10, i*15));
+				} else {
+					Thread.sleep(800);	
+				} 
+			} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			}
+			System.out.println(fleet.getTaxis());
 		}
 	}
 }

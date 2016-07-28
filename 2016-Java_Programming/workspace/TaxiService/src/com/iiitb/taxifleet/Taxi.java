@@ -1,4 +1,3 @@
-
 package com.iiitb.taxifleet;
 
 public class Taxi {
@@ -6,10 +5,12 @@ public class Taxi {
 	private Location loc;
 	private boolean isBusy;
 	private static int tId = 0;
+
 	public Taxi() {
-		taxiId = ++tId;
+		taxiId = tId++; // change to start at id 0
 		loc=new Location(0,0);
 	}
+
 	public Location getLocation() {
 		return loc;
 	}
@@ -22,13 +23,17 @@ public class Taxi {
 	public void setIsBusy(boolean status) {
 		isBusy = status;
 	}
-	public void setLocation(Location loc){
-		this.loc.setPosition(loc.getX(), loc.getY());
+	public void setLocation(Location pos){
+		loc.setPosition(pos.getX(), pos.getY());
+		if((loc.getX() < 0) || (loc.getY() < 0)) {
+			System.out.println("Wrong pos" + this);
+		}
 	}
+	
 	@Override
 	public String toString() {
 		return "Taxi [taxiId=" + taxiId + ", loc=" + loc + ", isBusy=" + isBusy
 				+ "]";
 	}
-	
+
 }
