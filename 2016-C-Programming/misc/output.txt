@@ -1,0 +1,5 @@
+In tmux, the terminal you're interacting with is tmux. It doesn't support all of xterm's control sequences. In particular, it doesn't support the OSC 4 ; … control sequence to query or set color values. You need to use that while directly running in xterm, outside tmux.
+
+If you run tmux -2, then tmux starts with 256-color support, even if it doesn't think that your terminal supports 256 colors (which is pretty common).
+
+By default, tmux advertises itself as screen without 256-color support. You can change the value of TERM in .tmux.conf to indicate 256-color support:

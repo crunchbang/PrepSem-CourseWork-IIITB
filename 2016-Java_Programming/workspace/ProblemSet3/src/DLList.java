@@ -1,11 +1,13 @@
-
+/*
+ * Set 3 - Q1
+ */
 public class DLList {
 	// pos specifies the location in the list where the operation
 	// needs to be performed
-	int len = 0; 
-	Node headNode;
-	Node tailNode;
-	int loc;
+	private int len = 0; 
+	private Node headNode;
+	private Node tailNode;
+	private int loc;
 	public void insert(int pos, Object obj) {
 		if (len == 0) {
 			headNode = new Node(obj);
@@ -191,6 +193,10 @@ public class DLList {
 
 		public Node getPrev() {
 			return prev;
+		}
+		
+		public String toString() {
+			return data.toString();
 		}
 	}
 
